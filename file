@@ -1,0 +1,2855 @@
+<!DOCTYPE html>
+
+<!--PAGE THEME #08: DEJA VU by @nonspace.
+  Don't steal.
+  Don't claim as your own.
+  Don't use as base code.
+  Editing for personal use is fine!-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" type="image/png" href="{Favicon}">
+  <title>{Title}</title>
+
+  <!--FONTS-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Chivo:400,400i,700|Playfair+Display:400,400i,700,700i|Roboto+Slab:400,700|Source+Code+Pro:400,700&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
+
+  <!--FONT AWESOME-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" crossorigin="anonymous">
+
+  <!--JQUERY-->
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+  <!--You can find all color settings at the beginning of the style tag.
+  All of the colors and some other details are changeable through this     
+  variables.
+  Hopefully that makes it easier to customise!
+
+  If you want individual colors per tab/character you will need to 
+  enable it below in "Color per tab toggle". This is disabled by default.
+
+  To add more tabs:
+    1. Copy/paste a new entry within the navigation. 
+       I've marked what you need to copy. You can search for "Copy here".          Change the 'data-tab' to #tab-x (x being a number not used before, 
+       e.g. tab-6)
+    2. Copy/paste a new tab. Important! Make sure your new tab does NOT have        the 'current' class; change its ID to tab-x (see above 
+       (they must match!!) e.g. tab-6),
+
+  -->
+  
+  <!--COLOR PER TAB TOGGLE-->
+  <script type="text/javascript">
+    /*This lets you enable/disable different colors per tab.
+      true = enabled, false =disabled*/
+    var colorPerTab = false;
+    /*To turn the image gallery into connection popups
+    IMPORTANT: The popups (in the code) need to be in the same order
+    as the corresponding gallery image otherwise it will open the
+    wrong one! */
+    var connectionPopup = false;
+  </script>
+  <style>
+/*SETTINGS & COLORS*/
+:root {
+  /*colors*/
+  --accentColorOne: #808080;
+  --accentColorTwo: #1e1e1e;
+ 
+  /*color per tab if enabled above*/
+  --accentColorOne-1: #FFF;
+  --accentColorTwo-1: #FFF;
+  --accentColorOne-2: #FFF;
+  --accentColorTwo-2: #FFF;
+  --accentColorOne-3: #FFF;
+  --accentColorTwo-3: #FFF;
+  --accentColorOne-4: #FFF;
+  --accentColorTwo-4: #FFF;
+  --accentColorOne-5: #FFF;
+  --accentColorTwo-5: #FFF;
+  
+  --colorOne: #1e1e1e;
+  --colorTwo: #111;
+  --fontColor: #1e1e1e;
+  --borderColor: #bbb;
+  
+  /*navigation  sidebar*/
+  --sidebar: #1e1e1e;
+  --sidebarFont: #fff;
+  --sidebarSubtitle: #999;
+  --characterSelection: #222;
+  --activeCharacter: #f8f8f8;
+  
+  /*Link bar*/
+  --barLinks: #fff;
+  
+  /*tab content*/
+  --textColor: #1e1e1e;
+  --detailBackground: #eee;
+  --cardBackground: #fff;
+
+  /*misc*/
+  --whiteHeadline: #fff;
+  --fontOne: 'Montserrat';
+  --fontTwo: 'Chivo';
+  --sidebarPrefix: ' ';
+  --gallery: 100px; /*to disable gallery on all tabs set to 0*/
+  --closeX: #fff;
+  --scrollbar: #f8f8f8;
+  --credit: #555;
+  --creditLink: #ccc;
+
+  /*status*/
+  /*by adding active, other or closed as a class to the
+    nav li you can change the color of the right border.
+    e.g. to indicate the status of the item*/
+  --active: #36b276;
+  --other: #ffab33;
+  --closed: #dd4b39;
+}
+
+nav ul li.active {
+  border-color: var(--active);
+}
+nav ul li.other {
+  border-color: var(--other);
+}
+nav ul li.closed {
+  border-color: var(--closed);
+}
+
+/*GENERAL*/
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--fontOne);
+  color: var(--fontColor);
+}
+
+.chivo-dark {
+  font-family: var(--fontTwo);
+  text-transform: uppercase;
+  background: #111;
+  color: var(--whiteHeadline);
+}
+
+a {
+    color: #708090;
+}
+
+/*titles*/
+h2, h3 {
+  font-weight: normal;
+  letter-spacing: 1px;
+  font-size: 16px;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 18px;
+  border-bottom: 5px solid #222;
+}
+
+.content h3 {
+  background: none;
+  color: var(--fontColor);
+  text-align: left;
+  padding: 0 20px 0 0;
+}
+
+
+/*LAYOUT*/
+#wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  overflow-y: hidden;
+}
+
+nav {
+  background: var(--sidebar);
+  color: var(--sidebarFont);
+  font-size: 16px;
+  width: 250px;
+  min-width: 250px;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+
+
+nav h2 {
+    position: relative;
+    z-index: 99;
+}
+
+/*navigation*/
+nav ul {
+  padding-top: 65px;
+  position: absolute;
+  width: 267px;
+  top: 0px;
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  padding-bottom: 40px;
+  z-index: 3;
+}
+
+nav ul::-webkit-scrollbar {
+  position: relative;
+  margin-top: -65px;
+  width: 5px;
+  height: 8px;
+  background-color: var(--scrollbar);
+}
+
+nav ul::-webkit-scrollbar-thumb {
+  background: var(-accentColorOne); 
+  background: -webkit-linear-gradient(to bottom, var(--accentColorOne), var(--accentColorTwo));  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, var(--accentColorOne), var(--accentColorTwo)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+nav ul li {
+  list-style-type: none;
+  background: #222;
+  display: flex;
+  padding: 0 0px;
+  width: 250px;
+  height: 60px;
+  margin: 10px 0;
+  border-right: 5px solid var(--sidebar);
+}
+
+nav ul li span:before, .headline ul li:before {
+  content: var(--sidebarPrefix);
+  text-transform: lowercase;
+}
+
+/*current list item*/
+nav ul li.current, nav ul li:hover {
+  position: relative;
+  background: #f8f8f8;
+  color: var(--fontColor);
+  cursor: pointer;
+  border: none;
+}
+    
+nav ul li:last-of-type {
+  margin-bottom: 15px;
+}
+
+nav ul li img {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+nav ul li div {
+  padding: 0 10px;
+  align-self: center;
+}
+
+nav ul li span {
+  display: block;
+  font-style: italic;
+  color: var(--sidebarSubtitle);
+  font-size: 14px;
+}
+
+main {
+  position: relative;
+  background: #f8f8f8;
+  flex: 1;
+}
+
+/*tab*/
+.tab {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: none;
+  -webkit-animation-duration: 0.8s;
+  animation-name: fadeIn;
+  animation-duration: 0.8s;
+}
+
+.tab.current {
+  display: flex;
+}
+
+/*tab link bar*/
+.bar {
+  position: relative;
+  width: 16px;
+  height: 100%;
+  background: var(--accentColorOne);  /* fallback for old browsers */
+  display: flex;
+  flex-direction: column;
+}
+
+.bar-links {
+  position: relative;
+  flex: 2;
+  margin: 80px auto 10px;
+  z-index: 4;
+}
+
+.bar-links li {
+  list-style-type: none;
+  padding-bottom: 20px;
+}
+
+.bar-links li a {
+  color: var(--barLinks);
+  font-size: 21px;
+}
+
+.bar-bottom {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  color: var(--barLinks);
+  font-size: 12px;
+  margin: 20px auto 20px;
+}
+
+.rotate {
+  position: absolute;
+  bottom: 0;
+  font-family: var(--fontTwo);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  display: block;
+  width: 100%;
+  transform: rotate(-90deg);
+}
+
+/*detail bar*/
+.stats {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.stats span {
+    text-align: right;
+}
+
+.picture {
+  position: relative;
+  height: 250px;
+}
+
+.picture img {
+  object-fit: cover;
+  height: 250px;
+  width: 250px;
+}
+
+.details {
+  position: relative;
+  background: var(--detailBackground);
+  flex: 1;
+  overflow: hidden;
+}
+
+.details ul {
+  padding: 10px 20px;
+  height: 100%;
+  overflow: auto;
+}
+
+.details ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0px;
+  border-bottom: 1px dashed #1e1e1e;
+}
+
+.details ul li:last-child {
+  border-bottom: none;
+}
+
+.details i {
+  font-family: var(--fontTwo);
+  font-style: normal;
+  text-transform: uppercase;
+  font-size: 13px;
+  width: 80px;
+  word-break: break-word;
+}
+
+/*inner tab content*/
+.info {
+  position: relative;
+  background: var(--cardBackground);
+  height: 700px;
+  max-width: 1350px;
+  align-self: center;
+  flex: 1;
+  display: flex;
+  overflow: auto;
+  margin: auto 0;
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  display: flex;
+  padding: 10px 20px;
+  flex-direction: column;
+}
+
+.row-1 {
+  position: relative;
+  display: flex;
+  padding: 10px 0;
+  flex: 3;
+  overflow: hidden;
+  align-items: center;
+}
+
+.row-2 {
+  position: relative;
+  display: flex;
+  padding: 10px 0;
+  flex: 2;
+  overflow: hidden;
+  align-items: center;
+}
+
+.row-3 {
+  position: relative;
+  display: flex;
+  padding: 10px 0;
+  flex: 1
+  overflow: hidden;
+  align-items: center;
+}
+
+.row-4 {
+  position: relative;
+  display: flex;
+  padding: 10px 0;
+  flex: 1
+  overflow: hidden;
+  align-items: center;
+}
+
+.row-1 {
+  border-bottom: 1px dashed var(--borderColor);
+}
+
+.row-2 {
+  border-bottom: 1px dashed var(--borderColor);
+}
+
+.row-3 {
+  border-bottom: 1px dashed var(--borderColor);
+}
+
+.headline {
+  min-width: 150px;
+  word-break: break-word;
+}
+
+.headline ul {
+  margin: 15px 0px;
+}
+
+.headline li {
+  list-style-type: none;
+  padding: 2px;
+  margin: 3px;
+  font-size: 12px;
+  width: auto;
+  letter-spacing: 2px;
+}
+
+.text {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  height: 100%;
+  padding: 0 0px 10px 0px;
+}
+
+.text .txt {
+  position: relative;
+  overflow-y: auto;
+  height: 100%;
+  line-height: 135%;
+}
+
+.text .txt p {
+  margin: 10px 0;
+}
+    
+.quote, .bubbles {
+  margin: auto;
+}
+
+.quote {
+  position: relative;
+  flex: 1;
+  font-family: 'Playfair Display';
+  font-size: 28px;
+  line-height: 100%;
+  font-style: italic;
+  color: var(--fontColor);
+  padding: 10px 0px 10px 25px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.quote span {
+  display: block;
+  text-align: right;
+  font-style: normal;
+  font-size: 13px;
+  font-family: var(--fontTwo);
+  margin-top: 8px;
+  text-transform: uppercase;
+  color: var(--fontColor);
+}
+
+.bubbles { 
+  flex: 1;
+  padding: 10px 20px 10px 0px;
+  border-right: 1px dashed var(--borderColor);
+  height: 100%;
+}
+
+.bubbles ul {
+  list-style-type: none;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.bubbles ul li {
+  display: inline-block;
+  word-break: break-all;
+  font-family: var(--fontTwo);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  color: var(--barLinks);
+  width: auto;
+  padding: 5px;
+  margin: 5px 2.5px 5px;
+  background: var(--accentColorOne);  /* fallback for old browsers */
+  
+}
+
+.gallery {
+  width: var(--gallery);
+  overflow: auto;
+}
+
+.gallery ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery ul li {
+  list-style-type: none;
+  line-height: 0;
+  font-size: 0;
+  flex: 1;
+  background: var(--colorTwo);
+  height: 100px;
+}
+
+.gallery li img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  filter: grayscale(100%);
+}
+
+.side-title {
+  background: var(--sidebar);
+  color: var(--whiteHeadline);
+  height: 600px;
+}
+
+.side-title .rotate {
+  margin: 50px auto 50px;
+}
+
+.sidebar {
+  position: relative;
+  width: 60px;
+  height: 100%;
+  background: var(--accentColorTwo);  /* fallback for old browsers */
+  display: flex;
+  flex-direction: column;
+}
+
+#credit {
+  position: absolute;
+  bottom: 0;
+  width: 250px;
+  text-align: center;
+  padding: 15px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--credit);
+  z-index: 10;
+}
+
+#credit a {
+  color: var(--creditLink);
+  text-decoration: none;
+}
+
+/*transitions*/
+nav ul li, nav, #close {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+/*shadows*/
+.stats, .info, .bar, #close {
+  -webkit-box-shadow: 0px 0px 100px -35px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 100px -35px rgba(0,0,0,0.3);
+  box-shadow: 0px 0px 100px -35px rgba(0,0,0,0.3);
+}
+nav {
+  -webkit-box-shadow: inset 0px 0px 53px -17px rgba(0,0,0,1);
+  -moz-box-shadow: inset 0px 0px 53px -17px rgba(0,0,0,1);
+  box-shadow: inset 0px 0px 53px -17px rgba(0,0,0,1);
+}
+
+/*ANIMATION KEYFRAMES*/
+@-webkit-keyframes fadeIn  {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  40% { opacity: 0.3; }
+  60% { opacity: 0.5; }
+  80% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  20% { opacity: 0; }
+  40% { opacity: 0.3; }
+  60% { opacity: 0.5; }
+  80% { opacity: 0.9; }
+  100% { opacity: 1; }
+}
+
+/*POPUP*/
+.popup {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+
+.popup-inner {
+  position: relative;
+  width: 500px;
+  height: 280px;
+  display: flex;
+  background: var(--cardBackground);
+  color: var(--textColor);
+  margin: auto;
+  border: 10px solid rgba( var(--colorTriangle),0.5);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
+.popup-inner img {
+  width: 200px;
+  height: 100%;
+  filter: grayscale(0);
+  object-fit: cover;
+  o-object-fit: cover;
+}
+
+.con-desc {
+  overflow: hidden;
+  width: 100%;
+  border-bottom: 25px solid var(--cardBackground);
+}
+
+.con-text {
+  margin: 25px;
+  height: 100%;
+  overflow-y: auto;
+  margin-bottom: 25px;
+}
+  </style>
+
+  <!--MOBILE STYLES-->
+  <link rel="stylesheet" type="text/css" href="https://drive.google.com/uc?export=view&id=1YhHjX9QD1fzQ03jjOrSqN1oTWJOAcyy3" />
+
+</head>
+<body>
+  <div id="wrapper">
+    <nav class="hidden">
+      <span id="close"></span>
+      <h2 class="chivo-dark">Characters</h2>
+      <ul>
+        <li class="current" data-tab="#tab-1">
+          <img src="https://s15.postimg.cc/lzm2mwwcr/kyra.jpg">
+          <div>
+            Kyra Lavellan
+            <span>Dragon Age: Inquisition</span>
+          </div>
+        </li>
+        <!--COPY HERE-->
+        <li class="" data-tab="#tab-2">
+          <img src="https://s15.postimg.cc/ktdhaainf/rion.jpg">
+          <div>
+            Rion Lavellan
+            <span>Dragon Age: Inquisition</span>
+          </div>
+        </li>
+        <!--TO HERE-->
+        <li class="" data-tab="#tab-9">
+          <img src="https://i.postimg.cc/zDtR5H11/azmarie-livingston-1806-4189190939.jpg">
+          <div>
+            Jehenara of House Ravenwatch
+            <span>Elder Scrolls Online</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-3">
+          <img src="https://s15.postimg.cc/xjhpnmye3/lex.jpg">
+          <div>
+            Lex Tabris
+            <span>Dragon Age: Origins</span>
+          </div>
+        </li>
+        <li data-tab="#tab-4">
+          <img src="https://s15.postimg.cc/xoq2ar5a3/shepard.jpg">
+          <div>
+            Adrienne Shepard
+            <span>Mass Effect Trilogy</span>
+          </div>
+        </li>
+        <li data-tab="#tab-5">
+          <img src="https://i.postimg.cc/N0L1PCgt/lulu-antariska.jpg">
+          <div>
+            Isadore Chayal
+            <span>Pillars of Eternity</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-6">
+          <img src="https://i.postimg.cc/LXP8j5bn/keeya-king.jpg">
+          <div>
+            Rysari
+            <span>Pathfinder: Kingmaker</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-7">
+          <img src="https://i.postimg.cc/YC37KgJ6/natalie-alyn-lind-jpeg-2.jpg">
+          <div>
+            Dinaeve
+            <span>Pathfinder: Wrath of the Righteous</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-8">
+          <img src="https://s15.postimg.cc/obph6jecr/ailith.jpg">
+          <div>
+            Ailith Dakatti
+            <span>The Elder Scrolls III: Morrowind</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-10">
+          <img src="https://s15.postimg.cc/55ca3t0kb/revan.jpg">
+          <div>
+            Valeria Naeris
+            <span>Star Wars: Knights of the Old Republic</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-11">
+          <img src="https://s15.postimg.cc/3o00jrd63/lyssa.jpg">
+          <div>
+            Lyssa Ailing
+            <span>Star Wars: KotOR II - The Sith Lords</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-12">
+          <img src="https://s15.postimg.cc/y7qk6hpd7/willow.jpg">
+          <div>
+            Willow Chrysenfalle
+            <span>Neverwinter Nights</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-13">
+          <img src="https://s15.postimg.cc/jbs0yttd7/myrian.jpg">
+          <div>
+            Myrian Callith
+            <span>Baldur's Gate I/II</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-14">
+          <img src="https://s15.postimg.cc/gug9rh9fv/rue_cropped.jpg">
+          <div>
+            Ruani Zehrik
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-15">
+          <img src="https://s15.postimg.cc/5i3o9k3a3/laena_cropped.jpg">
+          <div>
+            Laena Chayal
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-16">
+          <img src="https://i.postimg.cc/c1MDCrTW/662full-freya-tingley.jpg">
+          <div>
+            Heidrun Raskob
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-17">
+          <img src="https://i.postimg.cc/9fmgH9vz/unknown.png">
+          <div>
+            Ravi Vasira
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-18">
+          <img src="https://68.media.tumblr.com/10b29c807491889b42dedaa008dcbcbe/tumblr_owc6s1Bs8Y1uo5urho3_r1_400.png">
+          <div>
+            Fane of the Dawn
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-19">
+          <img src="https://s15.postimg.cc/as8n1aq8b/alinore_cropped.jpg">
+          <div>
+            Alinore Northbrooke
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-20">
+          <img src="https://i.postimg.cc/D0tvnZG5/Kaman-Kong.png">
+          <div>
+            Rhya Vulkyne
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-21">
+          <img src="https://s15.postimg.cc/y6gmdadbf/nyxeris_cropped.jpg">
+          <div>
+            Nyxeris Cymri
+            <span>D&D</span>
+          </div>
+        </li>
+        <li class="" data-tab="#tab-22">
+          <img src="https://68.media.tumblr.com/10b29c807491889b42dedaa008dcbcbe/tumblr_owc6s1Bs8Y1uo5urho3_r1_400.png">
+          <div>
+            Vyr Atenashi
+            <span>D&D</span>
+          </div>
+        </li>
+<!--FOR ADDITIONAL CHARACTER TABS COPY HERE
+        <li class="" data-tab="#tab-X">
+          <img src="https://images.pexels.com/photos/1670646/pexels-photo-1670646.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260">
+          <div>
+            Character Name
+            <span>Subtitle</span>
+          </div>
+        </li>
+        TO HERE-->
+
+
+      </ul>
+      <div id="credit" class="chivo-dark">Design & Code by <a href="https://nonspace.tumblr.com">NNSPC</a></div>
+    </nav>
+
+    <main>
+      <!--EXAMPLE GOES FROM HERE
+      <div class="tab current" id="tab-X">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="CHARACTER IMAGE">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">CHARNAME</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> ALIASES </span> </li>
+              <li> <i>Age</i>       <span> AGE </span> </li>
+              <li> <i>Race</i>      <span> RACE </span> </li>              
+              <li> <i>Gender</i>    <span> GENDER </span> </li>
+              <li> <i>Sexuality</i> <span> SEXUALITY </span> </li>
+              <li> <i>Setting</i>   <span> SOURCE </span> </li>
+              <li> <i>Alignment</i> <span> ALIGNMENT </span> </li>
+              <li> <i>Class</i>     <span> CLASS </span> </li>
+              <li> <i>Faceclaim</i> <span> FACECLAIM </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">CHARNAME/STATUS</div>
+          </div>
+        </div>
+      TO HERE-->
+      
+<!--TAB ONE-->
+      <div class="tab current" id="tab-1">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/lzm2mwwcr/kyra.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Kyra Lavellan</h3>
+            <ul>
+              <li> <i>AKA</i>        <span> First of Clan Lavellan, Inquisitor, Herald of Andraste </span> </li>
+              <li> <i>Age</i>        <span> 25 </span> </li>
+              <li> <i>Race</i>       <span> Dalish elf </span> </li>
+              <li> <i>Gender</i>     <span> Female (she/her)</span> </li>
+              <li> <i>Sexuality</i>  <span> Lesbian </span> </li>
+              <li> <i>Setting</i>    <span> Dragon Age: Inquisition </span> </li>
+              <li> <i>Alignment</i>  <span> Neutral Good </span> </li>
+              <li> <i>Class</i>      <span> Rift Mage </span> </li>
+              <li> <i>Faceclaim</i>  <span> Morena Baccarin </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History</h3>
+                </div>
+                <div class="txt">
+Kyra and Rion Lavellan are twins whose parents died when they were very young. They were raised communally by their clan alongside most of the other children around their age, and they were notoriously inseparable despite their wildly different personalities. The more confident Rion took it upon himself to act as protector of his shyer sister, even more so once her magic manifested. <br><br>
+
+With no other known mages in the clan at the time, Kyra took on the role of First to Keeper Deshanna. While this served to give Kyra the training she needed, it was widely understood that it was a temporary measure until either another of the clan displayed magical ability or they were able to bring someone in from another clan at an Arlathvhen. Kyra was the first to acknowledge that she was a poor fit for a position of leadership, too awkward and anxious and uncertain in social situations, and she looked forward to the time when she could pass her role on to someone better suited and turn her focus to something that she <i>was</i> good at - magical innovation and experimentation.<br><br>
+
+While Kyra studied magic and history with Keeper Deshanna, Rion trained with the clan’s hunters, proving himself to be a skilled warrior and - to no one’s great surprise - a fierce defender against attacks from wild creatures and humans alike. His talents and dedication quickly earned him the respect of the other hunters and of the clan as a whole, and he was frequently asked to handle more dangerous and complicated tasks than would generally be expected of someone as young as he.<br><br>
+
+One such task was attending the Divine Conclave, serving as the eyes and ears of the clan as the shemlen powers made decisions that would inevitably affect their lives as much as they did the humans’. Kyra went with him - what she lacked in confidence and social aptitude she more than made up for in magical power and understanding, both vital in a meeting intended to decide the fate of Thedas’s magic users. When Corypheus interrupted the proceedings, the twins were separated. Where Kyra found herself in the Fade interrupting Corypheus’s ritual, Rion was scouting the perimeter of the temple and ended up caught in one of the blasts, thrown far from the epicenter. His landing left him badly injured but alive, but the worst came several days later, when he regained consciousness alone and learned that no one had made it out of the Temple of Sacred Ashes alive.<br><br>
+
+It would be some time before he learned of Kyra’s ‘miraculous’ survival, months he spent recovering from his injuries and then throwing himself at any demon unfortunate enough to cross his path. He caught occasional news of the resistance building at Haven and later the establishment of the Inquisition, but he had no interest in serving some shemlen organization - the only reason he stayed in the area at all was that he could not face the thought of returning to his clan alone, and the Hinterlands offered more than enough in the way of demons, bandits, and renegade templars for him to lose himself in the fight. For all that he spared no real thought for the humans around him beyond what was necessary to find his next target, his skill and ferocity did not go unnoticed. A small group began to form around him - mostly displaced elves (including elven mages in numbers too statistically improbable to be coincidence) and a few dwarves, outcasts and loners and people with nowhere else to go and nothing else to fight for.<br><br>
+
+Eventually a recruiter from the Inquisition tracked him down, looking to bring his motley group under their banner. It was not the first time Rion had been approached by someone like that, but it was the first time said someone gave the name of the figurehead for whom they sought aid.<br><br>
+
+Needless to say, Rion was on the move to Skyhold within the hour, his ragtag team trailing behind him in baffled incomprehension at this sudden change in their leader’s opinion, incomprehension that only deepened when they finally arrived at Skyhold and watched Rion immediately launch himself at the Inquisition’s de facto leader.<br><br>
+
+Meanwhile, Kyra too found herself waking up alone after the Conclave disaster. Alone, imprisoned, and under suspicion for the entire situation. The first several weeks of the Inquisition’s existence pushed the limits of what Kyra was able to handle - she had not even begun to process her grief for the brother she believed dead; the anchor’s influence started to cause issues with her innate magic while she was surrounded by templars; her culture and beliefs were being constantly ignored in favor of a narrative placing her at the heart of a religion responsible for the near-genocide of her people. Her every move, every decision was fraught with danger. <br><br>
+
+Despite that, despite Cassandra’s dismissal and Dorian’s ignorance, despite Sera’s distaste and Solas’s disapproval, she carved out something like a place for herself in the chaos and upheaval that characterized the early days of the Inquisition. She shouldered responsibilities she never asked for, even made friends with someone who wasn’t her brother. She made them forget to feel threatened by the idea of an elven mage in a position of power.<br><br>
+
+That is not to say that she ever quite recovered from losing Rion. She didn’t have the chance. The first moment she really had a chance to stop moving and process everything she had gone through, Rion showed up on her doorstep, alive and carrying new traumas of his own to match hers.<br><br>
+
+Things became much easier for them both to deal with once they were reunited. Regardless of what the world threw at them, they knew they had someone in their corner. Kyra settled into the role of a leader far better than anyone would have prediction - not easily, each decision and each conversation still an anxiety-inducing affair, but successfully. Rion for his part stepped easily back into the role he had played his entire life, acting as protector to Kyra and their people. That their people now included the Inquisition was a thought that took some getting used to. He also started to take a more active, involved role in the group that had followed him out of the Hinterlands and over time they became a force to be reckoned with.<br><br>
+
+The war progressed - Adamant Fortress, the Fade, the death of the Empress. The Well of Sorrows caused some tension, but they both knew from the start how it would end. Strange, unknown magic was Kyra’s specialty, after all. Then Corypheus fell and the Inquisition - and by extension Kyra and Rion - spent the next three years cleaning up the remnants of his forces and attempting to restore order.<br><br>
+
+The events of Trespasser left the pair of the scarred and shaken - for all that Kyra bore the physical marks of it, Rion had always been devout in a way that she was not, and it took him a long time to come to terms with some of the long-forgotten secrets they had uncovered. But as much as they wanted to retire, to walk away from the fight and settle down somewhere, find something resembling peace, they both knew that their work was not finished yet. The Inquisition may have officially been disbanded, but its heart carried on with their work. They would rest once the world was safe.
+                </div>
+              </div>
+            </div>
+            
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+<b>Rion Lavellan (twin brother)</b>: Rion has always been the most important thing in Kyra’s life, a source of constant support during difficult times and a playmate and co-conspirator during the lighter ones. The opposite is equally true. Rion has been Kyra’s defender, her voice when she could not bring herself to speak, and Kyra in turn has been Rion’s peace, his shelter when he felt like the rest of the world was against him. They balance each other, keep one another from falling into their worst habits. For most of their life, it was a relationship that bordered on dangerously codependent, too much of themselves tied up in their twin. It is only after the Conclave, after they are separated for the first time in their lives, that they settle into something a little healthier. Their devotion to one another, however, runs just as deep as ever. <br> <br>
+
+<b>Cassandra Pentaghast (lover)</b>: Kyra and Cassandra got off to a rocky start, between the imprisonment, the suspicion, and Cassandra’s certainty that Kyra was divinely favored by a prophet Kyra did not believe in. They clashed on many topics those first few months, both stubborn and set in their ways. But neither could deny the other’s skill in a fight, and over time that battlefield respect shifted into tentative overtures of friendship; the uncompromising Cassandra more willing to listen, to consider Kyra’s perspective and the reserved Kyra more willing to explain, to talk without shutting down.<br><br>
+
+It took longer for that friendship to develop into romance, a slow and careful courtship that they were halfway through before they even realized they had begun. Kyra, more comfortable with her sexuality than Cassandra, took this realization far better than her friend did. Eventually, though, despite Cassandra’s initial rejection, the two managed to sort things out. It may have lacked the flair and dramatics Cassandra had expected from romance, but it worked for them. They were comfortable with each other, their relationship solid enough to weather Cassandra’s occasional moments of inserting her foot in her mouth, of letting herself forget everything she had learned and every way she had grown in the last years. It weathered, too, Kyra’s bouts of isolation, days at a time in which the very last thing she wanted was to be around people. Even those as beloved as Cassandra.<br><br>
+
+<b>Dorian Pavus (best friend)</b>: Like her relationship with most of the humans of the Inquisition, Kyra’s relationship with Dorian started out…tense, at best. But it became very clear very quickly that, if nothing else, they both shared a deep love of magical research and experimentation. With that as a bonding point, the two quickly became inseparable and in the time between Inquisition missions they could often be found in Skyhold’s basement library, bouncing ideas and theories off each other as they delved into one magical secret after another.<br><br>
+
+<b>Deshanna Istimaethoriel Lavellan (Keeper, mentor)</b> <br><br>
+
+<b>Allegiances</b>: Clan Lavellan, Rion Lavellan, the Inquisition
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+Kyra is small-statured and soft-featured, with thick brown curles and brown eyes. She bears the vallaslin of Dirthamen, the Keeper of Secrets. Even after settling in Skyhold, Kyra keeps to outfits in the Dalish style she grew up with, both for the comfort of familiarity and for the constant reminder to everyone who saw her of who and what she was.
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                <i>Playlist:</i> <a href="https://open.spotify.com/user/spectre-tabris/playlist/5YbDnZI8GpVQQC4zHpcZk5?si=3YI_yln6R6WoPU0H2juf1w">in uncharted waters</a> (hmdh modern au) <br>
+              <i>Writing:</i> <a href="/my-fic">Fic</a><br>
+              <i>Tag:</i> <a href="/tagged/kyra lavellan">Kyra Lavellan</a>
+                </div>
+              </div>
+              </div>
+              </div>
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">Kyra Lavellan</div>
+          </div>
+        </div>
+      
+<!--tab one end-->
+
+<!--TAB TWO-->
+  <div class="tab current" id="tab-2">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/ktdhaainf/rion.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Rion Lavellan</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Hunter of Clan Lavellan </span> </li>
+              <li> <i>Age</i>       <span> 25 </span> </li>
+              <li> <i>Race</i>      <span> Dalish elf </span> </li>
+              <li> <i>Gender</i>    <span> Male (he/him)</span> </li>
+              <li> <i>Sexuality</i> <span> Greyromantic, pansexual </span> </li>
+              <li> <i>Setting</i>   <span> Dragon Age: Inquisition </span> </li>
+              <li> <i>Alignment</i> <span> True neutral </span> </li>
+              <li> <i>Class</i>     <span> Warrior (Champion specialization) </span> </li>
+              <li> <i>Faceclaim</i><span> Brennan Mejia </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History</h3>
+                </div>
+                <div class="txt">
+Kyra and Rion Lavellan are twins whose parents died when they were very young. They were raised communally by their clan alongside most of the other children around their age, and they were notoriously inseparable despite their wildly different personalities. The more confident Rion took it upon himself to act as protector of his shyer sister, even more so once her magic manifested. <br><br>
+
+With no other known mages in the clan at the time, Kyra took on the role of First to Keeper Deshanna. While this served to give Kyra the training she needed, it was widely understood that it was a temporary measure until either another of the clan displayed magical ability or they were able to bring someone in from another clan at an Arlathvhen. Kyra was the first to acknowledge that she was a poor fit for a position of leadership, too awkward and anxious and uncertain in social situations, and she looked forward to the time when she could pass her role on to someone better suited and turn her focus to something that she <i>was</i> good at - magical innovation and experimentation.<br><br>
+
+While Kyra studied magic and history with Keeper Deshanna, Rion trained with the clan’s hunters, proving himself to be a skilled warrior and - to no one’s great surprise - a fierce defender against attacks from wild creatures and humans alike. His talents and dedication quickly earned him the respect of the other hunters and of the clan as a whole, and he was frequently asked to handle more dangerous and complicated tasks than would generally be expected of someone as young as he.<br><br>
+
+One such task was attending the Divine Conclave, serving as the eyes and ears of the clan as the shemlen powers made decisions that would inevitably affect their lives as much as they did the humans’. Kyra went with him - what she lacked in confidence and social aptitude she more than made up for in magical power and understanding, both vital in a meeting intended to decide the fate of Thedas’s magic users. When Corypheus interrupted the proceedings, the twins were separated. Where Kyra found herself in the Fade interrupting Corypheus’s ritual, Rion was scouting the perimeter of the temple and ended up caught in one of the blasts, thrown far from the epicenter. His landing left him badly injured but alive, but the worst came several days later, when he regained consciousness alone and learned that no one had made it out of the Temple of Sacred Ashes alive.<br><br>
+
+It would be some time before he learned of Kyra’s ‘miraculous’ survival, months he spent recovering from his injuries and then throwing himself at any demon unfortunate enough to cross his path. He caught occasional news of the resistance building at Haven and later the establishment of the Inquisition, but he had no interest in serving some shemlen organization - the only reason he stayed in the area at all was that he could not face the thought of returning to his clan alone, and the Hinterlands offered more than enough in the way of demons, bandits, and renegade templars for him to lose himself in the fight. For all that he spared no real thought for the humans around him beyond what was necessary to find his next target, his skill and ferocity did not go unnoticed. A small group began to form around him - mostly displaced elves (including elven mages in numbers too statistically improbable to be coincidence) and a few dwarves, outcasts and loners and people with nowhere else to go and nothing else to fight for.<br><br>
+
+Eventually a recruiter from the Inquisition tracked him down, looking to bring his motley group under their banner. It was not the first time Rion had been approached by someone like that, but it was the first time said someone gave the name of the figurehead for whom they sought aid.<br><br>
+
+Needless to say, Rion was on the move to Skyhold within the hour, his ragtag team trailing behind him in baffled incomprehension at this sudden change in their leader’s opinion, incomprehension that only deepened when they finally arrived at Skyhold and watched Rion immediately launch himself at the Inquisition’s de facto leader.<br><br>
+
+Meanwhile, Kyra too found herself waking up alone after the Conclave disaster. Alone, imprisoned, and under suspicion for the entire situation. The first several weeks of the Inquisition’s existence pushed the limits of what Kyra was able to handle - she had not even begun to process her grief for the brother she believed dead; the anchor’s influence started to cause issues with her innate magic while she was surrounded by templars; her culture and beliefs were being constantly ignored in favor of a narrative placing her at the heart of a religion responsible for the near-genocide of her people. Her every move, every decision was fraught with danger. <br><br>
+
+Despite that, despite Cassandra’s dismissal and Dorian’s ignorance, despite Sera’s distaste and Solas’s disapproval, she carved out something like a place for herself in the chaos and upheaval that characterized the early days of the Inquisition. She shouldered responsibilities she never asked for, even made friends with someone who wasn’t her brother. She made them forget to feel threatened by the idea of an elven mage in a position of power.<br><br>
+
+That is not to say that she ever quite recovered from losing Rion. She didn’t have the chance. The first moment she really had a chance to stop moving and process everything she had gone through, Rion showed up on her doorstep, alive and carrying new traumas of his own to match hers.<br><br>
+
+Things became much easier for them both to deal with once they were reunited. Regardless of what the world threw at them, they knew they had someone in their corner. Kyra settled into the role of a leader far better than anyone would have prediction - not easily, each decision and each conversation still an anxiety-inducing affair, but successfully. Rion for his part stepped easily back into the role he had played his entire life, acting as protector to Kyra and their people. That their people now included the Inquisition was a thought that took some getting used to. He also started to take a more active, involved role in the group that had followed him out of the Hinterlands and over time they became a force to be reckoned with.<br><br>
+
+The war progressed - Adamant Fortress, the Fade, the death of the Empress. The Well of Sorrows caused some tension, but they both knew from the start how it would end. Strange, unknown magic was Kyra’s specialty, after all. Then Corypheus fell and the Inquisition - and by extension Kyra and Rion - spent the next three years cleaning up the remnants of his forces and attempting to restore order.<br><br>
+
+The events of Trespasser left the pair of the scarred and shaken - for all that Kyra bore the physical marks of it, Rion had always been devout in a way that she was not, and it took him a long time to come to terms with some of the long-forgotten secrets they had uncovered. But as much as they wanted to retire, to walk away from the fight and settle down somewhere, find something resembling peace, they both knew that their work was not finished yet. The Inquisition may have officially been disbanded, but its heart carried on with their work. They would rest once the world was safe.
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+<b>Kyra Lavellan (twin sister)</b>: Rion has always been the most important thing in Kyra’s life, a source of constant support during difficult times and a playmate and co-conspirator during the lighter ones. The opposite is equally true. Rion has been Kyra’s defender, her voice when she could not bring herself to speak, and Kyra in turn has been Rion’s peace, his shelter when he felt like the rest of the world was against him. They balance each other, keep one another from falling into their worst habits. For most of their life, it was a relationship that bordered on dangerously codependent, too much of themselves tied up in their twin. It is only after the Conclave, after they are separated for the first time in their lives, that they settle into something a little healthier. Their devotion to one another, however, runs just as deep as ever. <br> <br>
+
+<b>Dorian Pavus (lover/husband)</b><br><br>
+
+<b>Sera (best friend)</b><br><br>
+
+<b>Solas (mentor figure)</b><br><br>
+
+<b>Allegiances</b>: Clan Lavellan, Kyra Lavellan, the Irregulars
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+Though in most ways Kyra’s near-identical twin, Rion’s martial training gives him a broader frame than his sister and he wears the vallaslin of Falon’din to her Dirthamen. While he is a warrior accustomed to the front lines of battle, Rion avoids the heavy armor favored by most of the Inquisition’s soldiers in favor of lighter leathers, relying on his speed and his shield to keep himself and his charges alive.
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                <i>Tag:</i> <a href="/tagged/rion lavellan">Rion Lavellan</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>    
+
+<!--TAB THREE-->
+        <div class="tab current" id="tab-3">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/xjhpnmye3/lex.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Lex Tabris</h3>
+            <ul>
+              <li> <i>AKA</i>         <span> Hero of Ferelden, Warden-Commander </span> </li>
+              <li> <i>Age</i>         <span> 19 </span> </li>
+              <li> <i>Gender</i>      <span> Female (she/her)</span> </li>
+              <li> <i>Race</i>        <span> City elf </span> </li>
+              <li> <i>Sexuality</i>   <span> Bi </span> </li>
+              <li> <i>Setting</i>     <span> Dragon Age: Origins </span> </li>
+              <li> <i>Alignment</i>   <span> Chaotic Good(ish) </span> </li>
+              <li> <i>Class</i>       <span> Rogue (Duelist/Scout) </span> </li>
+              <li> <i>Faceclaim</i>   <span> Alina Kovalenko </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Tag:</i> <a href="/tagged/lex tabris">Lex Tabris</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+
+<!--TAB FOUR-->
+            <div class="tab current" id="tab-4">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/xoq2ar5a3/shepard.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Adrienne Shepard</h3>
+            <ul>
+              <li> <i>AKA</i>         <span> Commander Shepard, First Human Spectre </span> </li>
+              <li> <i>Age</i>         <span> 29 </span> </li>
+              <li> <i>Gender</i>      <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>        <span> Human </span> </li>
+              <li> <i>Sexuality</i>   <span> Bi </span> </li>
+              <li> <i>Setting</i>     <span> Mass Effect Trilogy </span> </li>
+              <li> <i>Alignment</i>   <span> Neutral Good </span> </li>
+              <li> <i>Class</i>       <span> Infiltrator </span> </li>
+              <li> <i>Faceclaim</i>   <span> Antje Traue </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <b>Tag:</b> <a href="/tagged/adrienne shepard">Adrienne Shepard</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+
+<!--TAB FIVE-->
+     <div class="tab current" id="tab-5">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/N0L1PCgt/lulu-antariska.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Isadore Chayal</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Watcher of Caed Nua, Herald of Berath, Captain of the <em>Duskbringer</em>, Inquisitor Elowen ix Thelayn </span> </li>
+              <li> <i>Age</i>       <span> 61 </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her)</span> </li>
+              <li> <i>Race</i>      <span> Moon Godlike (elven heritage) </span> </li> 
+              <li> <i>Sexuality</i> <span> Biromantic, asexual </span> </li>
+              <li> <i>Setting</i>   <span> Pillars of Eternity, POE II: Deadfire </span> </li>
+              <li> <i>Alignment</i> <span> Lawful Good -> True Neutral </span> </li>
+              <li> <i>Class</i>     <span> Psyblade (cipher/fighter) </span> </li>
+              <li> <i>Faceclaim</i> <span> Lulu Antariska </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Playlists:</i> <a href="https://open.spotify.com/user/spectre-tabris/playlist/6CpyTKqcX9edAz0zHg4Dn5?si=jpqsDeScRS-zJ7d38nB2qA">a clean slate and buried war crimes</a> (Pillars of Eternity) <br>
+                  <a href=”https://open.spotify.com/playlist/4rEf5Ti3v5Z8MSxXRfZ2HZ?si=326fd827abbf4db8”>a future built by new machines</a> (Deadfire)<br>
+<i>Tag:</i> <a href="/tagged/isadore chayal">Isadore Chayal</a><br>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+
+<!--TAB SIX-->
+      <div class="tab current" id="tab-6">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/LXP8j5bn/keeya-king.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Rysari</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Baroness/Queen of the Stolen Lands </span> </li>
+              <li> <i>Age</i>       <span> 26 </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Sexuality</i> <span> Bi </span> </li>
+              <li> <i>Race</i>      <span> Aasimar </span> </li> 
+              <li> <i>Setting</i>   <span> Pathfinder: Kingmaker </span> </li>
+              <li> <i>Alignment</i> <span> Neutral Good </span> </li>
+              <li> <i>Class</i>     <span> Flamewarden Ranger </span> </li>
+              <li> <i>Faceclaim</i> <span> Keeya King </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Tag:</i> <a href="/tagged/rysari">Rysari</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB SEVEN-->
+<div class="tab current" id="tab-7">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/YC37KgJ6/natalie-alyn-lind-jpeg-2.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Dinaeve</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Knight-Commander of the Fifth Crusade </span> </li>
+              <li> <i>Age</i>       <span> 22 </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Human -> Azata -> Demigod </span> </li> 
+              <li> <i>Sexuality</i> <span> Pan </span> </li>
+              <li> <i>Setting</i>   <span> Pathfinder: Wrath of the Righteous </span> </li>
+              <li> <i>Alignment</i> <span> Chaotic Good </span> </li>
+              <li> <i>Class</i>     <span> Skald </span> </li>
+              <li> <i>Faceclaim</i> <span> Natalie Alyn Lind </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+(short version, Dinaeve is exactly the kind of person who would “Come at me, Bro” a lord of Hell. And does. More than once.)<br> <br>
+
+An iconoclast who somehow ends up in charge of a pseudo-religious organization, Dinaeve is a whirling dervish of energy and chaos, a disaster of a person who gets her first taste of power and immediately goes feral. Everything about her is larger than life and exaggerated - she always seems to be moving, laughing, singing. All this enthusiasm and vivaciousness makes her appear an open and genuine person, but anyone trying to actually get to know her will quickly realize how emotionally constipated she is, avoiding honest emotional expression as much as humanly - and superhumanly - possible. Any moment of being something close to emotionally vulnerable is inevitably followed by extravagant displays of how Extra she can be and how it’s all For The Bit. <br> <br>
+
+That is not to say that she doesn’t care about anything - she does, and deeply. She cares about the circle of friends who become her family, about the people she is responsible for, about free will and freedom and the breaking of chains. But life has made it difficult for her to trust people and frequently-reinforced survival instincts are difficult to overcome.<br> <br>
+
+The one thing she is upfront about is her passion for music. Whether it is humming to herself while reading reports or cheerfully serenading her companions on the road, she brings music with her wherever she goes. As her mythic powers grow, her azata magic manifests itself through music and song, and upon her apotheosis the magic begins to follow her in turn, a constant background accompaniment.
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+Dinaeve’s “inner circle” consists of the somewhat unexpected combination of Woljif, Seelah, Arueshalae, and Daeran. <br> <br>
+
+<b>Daeran (lover)</b>: Her relationship with Daeran started as a way to have fun and blow off some steam, on both their parts. As neither of the two had ever had anything that even resembled a real relationship before, they were equally unprepared to deal with the genuine feelings that grew between them. The result was two people who were fundamentally incapable of having an honest conversation about their emotions comedy-of-errors-ing their way into an inexplicably healthy, devoted relationship. No one was more surprised by the development than they were. Except maybe Galfrey. <br> <br>
+
+<b>Arueshalae (best friend #1)</b><br> <br>
+<b>Woljif (best friend #2)</b><br> <br>
+<b>Seelah (best friend #3)</b><br> <br>
+
+<b>Galfrey (military superior)</b>: Dinaeve never had the greatest appreciation of authority figures, and every encounter she had with Queen Galfrey served to both cement this mindset and erode what little respect she did have for the monarch. Galfrey, in turn, spent the majority of the Fifth Crusade in a state of “tfw you realize you handed command of your holy crusade to a superpowered twenty-something chaos gremlin.” Needless to say, their relationship as Queen and Knight-Commander was somewhat contentious.<br> <br>
+
+<b>Desna (Dinaeve’s goddess)</b>: While ostensibly a follower of Desna, Dinaeve’s attitude toward her goddess was less one of worship and more one of respect for her tenants and a similar outlook on life. In Golarian terms, she would more likely be considered an atheist than a proper Desnan, though this fact has never soured the relationship she has with either Desna herself or Arueshalae.<br> <br>
+
+<b>Allegiances:</b> Fifth Crusade. Officially owes fealty/loyalty to Mendev and Queen Galfrey but in practice tends to ignore both as much as she can get away with without losing her position
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+<i>Playlists:</i> <a href="https://open.spotify.com/playlist/3qC9tLKB4EEc5B26plIL5d?si=5956992b6a6f437d">i'm feeling devious (and looking glamorous)</a> (general playlist) <a href="https://open.spotify.com/playlist/0DWCIQJCKB0HEuAUqieqKv?si=66b30689e063433f">when the war starts in my heart</a> (Dinaeve/Daeran playlist)<br>
+<i>Tag:</i> <a href="/tagged/dinaeve">Dinaeve</a><br>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+
+<!--TAB EIGHT-->
+<div class="tab current" id="tab-8">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/obph6jecr/ailith.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Ailith Dakatti</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Nerevarine, Guildmaster of the Thieves Guild, The Gray Fox, Champion of Cyrodiil, Hero of Kvatch, “Serai” </span> </li>
+              <li> <i>Age</i>       <span> 43 as of the start of Morrowind </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Dunmer </span> </li> 
+              <li> <i>Sexuality</i> <span> Demi </span> </li>
+              <li> <i>Setting</i>   <span> The Elder Scrolls III: Morrowind, TES IV: Oblivion </span> </li>
+              <li> <i>Alignment</i> <span> True Neutral </span> </li>
+              <li> <i>Class</i>     <span> If this were a D&D game, she'd be a scout rogue </span> </li>
+              <li> <i>Faceclaim</i> <span> TBD </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+A clever strategist and tactician. Silver-tongued but ruthless on the battlefield. So tired of all this bullshit.
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                <i>Tag:</i> <a href="/tagged/ailith dakatti">Ailith Dakatti</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+
+<!--TAB NINE-->
+<div class="tab current" id="tab-9">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/zDtR5H11/azmarie-livingston-1806-4189190939.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Jehenara of House Ravenwatch</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> The King’s Arrow, Vestige, Bane of Molag Bal, Guardian of the Wyrd, Hand of Almalexia </span> </li>
+              <li> <i>Age</i>       <span> Mid 80’s as of 2E582 </span> </li>
+              <li> <i>Gender</i>    <span> Femae (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Dunmer </span> </li> 
+              <li> <i>Sexuality</i> <span> Demiromantic, pansexual </span> </li>
+              <li> <i>Setting</i>   <span> The Elder Scrolls Online </span> </li>
+              <li> <i>Alignment</i> <span> True/Chaotic Neutral </span> </li>
+              <li> <i>Class</i>     <span> Dragonknight </span> </li>
+              <li> <i>Faceclaim</i> <span> Azmarie Livingston </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+Jehenara is tall for a dunmer - nearly six feet - and solidly built, with crimson eyes and thick auburn hair, the length and style of which she changes up every few years. Her taste in clothes tends more toward comfort than fashion, fabrics chosen for their feel rather than their cut or color (though she has a fondness for reds and golds). While she wears lighter armor when traveling, when gearing for a fight she reaches instead for heavy plate, shield, and mace. 
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+<i>Playlists:</i> <a href="https://open.spotify.com/playlist/58U8s76O7k3DFxwuzSsN8M?si=75fc7a9546be41b3">you think you’re pretty tough (so let’s throw down)</a> (general playlist) <br> 
+<a href="https://open.spotify.com/playlist/35QJwrt3BqMXwN3IF02vW8?si=1b6ef66dad3e4434">the ghost of us will linger here</a> (relationship playlist pt 1: rivenspire)<br>
+<a href="https://open.spotify.com/playlist/11aQxJGIaFkGXmFSNVCMb2?si=dab790e70ecf4a1b">i don't need a missing piece (just someone at my back)</a> (relationship playlist pt 2: the ravenwatch inquiry onward)<br>
+<i>Tag:</i> <a href="/tagged/jehenara">Jehenara</a><br>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB TEN-->
+<div class="tab current" id="tab-10">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/55ca3t0kb/revan.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Valeria Naeris</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Darth Revan, "Ri" </span> </li>
+              <li> <i>Age</i>       <span> 30 </span> </li>
+              <li> <i>Gender</i>    <span> Nonbinary (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Human </span> </li> 
+              <li> <i>Sexuality</i> <span> Demi </span> </li>
+              <li> <i>Setting</i>   <span> Star Wars: Knights of the Old Republic </span> </li>
+              <li> <i>Alignment</i> <span> True Neutral </span> </li>
+              <li> <i>Class</i>     <span> Scoundrel/Jedi Sentinel </span> </li>
+              <li> <i>Faceclaim</i> <span> Chiharu Okunugi </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+Grey Jedi. Ruthless but charismatic, cunning and proud. Aloof and distant with anyone who is not among the small number of people she trusts. Equal parts angry with and disgusted by the Jedi Council.
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Tag:</i> <a href="/tagged/ri naeris">Ri Naeris</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB ELEVEN-->
+<div class="tab current" id="tab-11">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/3o00jrd63/lyssa.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Lyssa Ailing</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> The Exile </span> </li>
+              <li> <i>Age</i>       <span> 28 </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Human </span> </li> 
+              <li> <i>Sexuality</i> <span> Pan </span> </li>
+              <li> <i>Setting</i>   <span> Star Wars: KotOR II - The Sith Lords </span> </li>
+              <li> <i>Alignment</i> <span> Neutral Good </span> </li>
+              <li> <i>Class</i>     <span> Jedi Consular/Watchman </span> </li>
+              <li> <i>Faceclaim</i> <span> Ashley Benson </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+Light side. The quintessential jaded idealist. Formerly focused on doing everything in her power to help others, but Malachor V broke something within her, far deeper than her connection to the Force, something she never got back, and now she craves solitude more than anything.
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Tag:</i> <a href="/tagged/lyssa ailing">Lyssa Ailing</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB TWELVE-->
+<div class="tab current" id="tab-12">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/y7qk6hpd7/willow.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Willow Chrysenfalle</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Hero of Neverwinter, Savior of Lith My’athar, Kagita’ar the Heartseeker, Light of Cania </span> </li>
+              <li> <i>Age</i>       <span> 127 (NWN), 132 (NWN:SoU), 247 in 1492 DR </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Wood elf </span> </li> 
+              <li> <i>Sexuality</i> <span> Bi </span> </li>
+              <li> <i>Setting</i>   <span> Neverwinter Nights, NWN: Shadows of Undrentide, NWN: Hordes of the Underdark </span> </li>
+              <li> <i>Alignment</i> <span> Chaotic Good </span> </li>
+              <li> <i>Class</i>     <span> Ranger </span> </li>
+              <li> <i>Faceclaim</i> <span> Eden Fines </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Tag:</i> <a href="/tagged/willow chrysenfalle">Willow Chrysenfalle</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB THIRTEEN-->
+<div class="tab current" id="tab-13">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/jbs0yttd7/myrian.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Myrian Callith</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Child of Bhaal, Gorion's Ward </span> </li>
+              <li> <i>Age</i>       <span> 22 as of the beginning of BGI, 134 as of 1492 DR </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Elf/Demigod </span> </li> 
+              <li> <i>Sexuality</i> <span> Grey-ro, Grey-ace </span> </li>
+              <li> <i>Setting</i>   <span> Baldur's Gate, Baldur's Gate II: Shadows of Amn/Throne of Bhaal </span> </li>
+              <li> <i>Alignment</i> <span> Chaotic neutral </span> </li>
+              <li> <i>Class</i>     <span> Rogue </span> </li>
+              <li> <i>Faceclaim</i> <span> Krystal Jung </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Tag:</i> <a href="/tagged/myrian callith">Myrian Callith</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB FOURTEEN-->
+<div class="tab current" id="tab-14">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/gug9rh9fv/rue_cropped.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Ruani Zehrik nee Tarryn</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Countess of Eskarra, the Grey Witch, "Rue" </span> </li>
+              <li> <i>Age</i>       <span> 20 at the start of her campaign, 41 in 1492 DR </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Half-elf </span> </li> 
+              <li> <i>Sexuality</i> <span> Aro/Ace </span> </li>
+              <li> <i>Setting</i>   <span> D&D, The Eleutherian campaign </span> </li>
+              <li> <i>Alignment</i> <span> True Neutral </span> </li>
+              <li> <i>Class</i>     <span> Great Old One Warlock, Pact of the Tome </span> </li>
+              <li> <i>Faceclaim</i> <span> Natalia Dyer </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                 <i>Playlist:</i> <a href="https://open.spotify.com/user/spectre-tabris/playlist/0qN2yI7jkocuv1WFdEKpET?si=JBQvNTDLSoSInNLFSQlyaw">the wolf at your door</a><br>
+                 <i>Tag:</i> <a href="/tagged/ruani zehrik">Ruani "Rue" Zehrik nee Tarryn</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB FIFTEEN-->
+<div class="tab current" id="tab-15">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/5i3o9k3a3/laena_cropped.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Laena Chayal</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> Arcane Shield of Yartar, Chosen of Cyric, the Dragontouched, Shessair </span> </li>
+              <li> <i>Age</i>       <span> 97 (start of campaign), 100 (appointment as Arcane Shield), 107 (1492 DR) </span> </li>
+              <li> <i>Gender</i>    <span> Female (she/her) </span> </li>
+              <li> <i>Race</i>      <span> High Elf </span> </li> 
+              <li> <i>Sexuality</i> <span> Lesbian </span> </li>
+              <li> <i>Setting</i>   <span> D&D, Forgotten Realms setting, Mad God's Chosen campaign </span> </li>
+              <li> <i>Alignment</i> <span> Neutral Good -> Chaotic Neutral/Evil </span> </li>
+              <li> <i>Class</i>     <span> Wizard, School of Evocation/Abjuration </span> </li>
+              <li> <i>Faceclaim</i> <span> Zineb Obeid </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIPS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Playlist:</i> <a href="https://open.spotify.com/user/spectre-tabris/playlist/1CrNaDEnJmG562pToOOXta?si=KIGMAeFCRQ63IQ4Gim46Cg">the lightning before the thunder</a><br>
+<i>Tag:</i> <a href="/tagged/laena chayal">Laena Chayal</a>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB SIXTEEN-->
+<div class="tab current" id="tab-16">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/c1MDCrTW/662full-freya-tingley.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Heidrun Raskob</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> None </span> </li>
+              <li> <i>Age</i>       <span> 17 </span> </li>
+              <li> <i>Gender</i>    <span> Genderfluid (they/he/she) </span> </li>
+              <li> <i>Race</i>      <span> Human </span> </li> 
+              <li> <i>Sexuality</i> <span> Probably aro/ace? </span> </li>
+              <li> <i>Setting</i>   <span> D&D, Wildemount setting, Dangerous Designs campaign </span> </li>
+              <li> <i>Alignment</i> <span> Neutral Good </span> </li>
+              <li> <i>Class</i>     <span> Wizard, School of Graviturgy </span> </li>
+              <li> <i>Faceclaim</i> <span> Freya Tingley </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 [REDACTED DUE TO ONGOING CAMPAIGN. NO SECRETS FOR YOU, REN!]
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  [REDACTED DUE TO ONGOING CAMPAIGN. NO SECRETS FOR YOU, REN!]
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  <i>Playlist link:</i> <a href="https://open.spotify.com/playlist/3i8mUEeMH5U7iAaY7WpEBd?si=01258706d03144b9">drowning in a dream</a><br>
+                  <i>Tag:</i> <a href="/tagged/heidrun">Heidrun</a><br>
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB SEVENTEEN-->
+<div class="tab current" id="tab-17">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/9fmgH9vz/unknown.png">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Ravi Vasira</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> None </span> </li>
+              <li> <i>Age</i>       <span> 22 </span> </li>
+              <li> <i>Gender</i>    <span> Nonbinary (she/her) </span> </li>
+              <li> <i>Race</i>      <span> Water genasi </span> </li> 
+              <li> <i>Sexuality</i> <span> Aro/ace </span> </li>
+              <li> <i>Setting</i>   <span> D&D, Keepers of the Sun campaign </span> </li>
+              <li> <i>Alignment</i> <span> Neutral good (shifting toward true neutral) </span> </li>
+              <li> <i>Class</i>     <span> Cleric, Grave Domain </span> </li>
+              <li> <i>Faceclaim</i> <span> Belissa Escobedo </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB EIGHTEEN-->
+<div class="tab current" id="tab-18">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://68.media.tumblr.com/10b29c807491889b42dedaa008dcbcbe/tumblr_owc6s1Bs8Y1uo5urho3_r1_400.png">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Fane of the Dawn</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> ALIASES </span> </li>
+              <li> <i>Age</i>       <span> AGE </span> </li>
+              <li> <i>Gender</i>    <span> GENDER </span> </li>
+              <li> <i>Race</i>      <span> RACE </span> </li> 
+              <li> <i>Sexuality</i> <span> SEXUALITY </span> </li>
+              <li> <i>Setting</i>   <span> SOURCE </span> </li>
+              <li> <i>Alignment</i> <span> ALIGNMENT </span> </li>
+              <li> <i>Class</i>     <span> CLASS </span> </li>
+              <li> <i>Faceclaim</i> <span> FACECLAIM </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB NINETEEN-->
+<div class="tab current" id="tab-19">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/as8n1aq8b/alinore_cropped.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Alinore Northbrooke</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> ALIASES </span> </li>
+              <li> <i>Age</i>       <span> AGE </span> </li>
+              <li> <i>Gender</i>    <span> GENDER </span> </li>
+              <li> <i>Race</i>      <span> RACE </span> </li> 
+              <li> <i>Sexuality</i> <span> SEXUALITY </span> </li>
+              <li> <i>Setting</i>   <span> SOURCE </span> </li>
+              <li> <i>Alignment</i> <span> ALIGNMENT </span> </li>
+              <li> <i>Class</i>     <span> CLASS </span> </li>
+              <li> <i>Faceclaim</i> <span> FACECLAIM </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB TWENTY-->
+<div class="tab current" id="tab-20">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://i.postimg.cc/D0tvnZG5/Kaman-Kong.png">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Rhya Vulkyne</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> ALIASES </span> </li>
+              <li> <i>Age</i>       <span> AGE </span> </li>
+              <li> <i>Gender</i>    <span> GENDER </span> </li>
+              <li> <i>Race</i>      <span> RACE </span> </li> 
+              <li> <i>Sexuality</i> <span> SEXUALITY </span> </li>
+              <li> <i>Setting</i>   <span> SOURCE </span> </li>
+              <li> <i>Alignment</i> <span> ALIGNMENT </span> </li>
+              <li> <i>Class</i>     <span> CLASS </span> </li>
+              <li> <i>Faceclaim</i> <span> FACECLAIM </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB TWENTY ONE-->
+<div class="tab current" id="tab-21">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://s15.postimg.cc/y6gmdadbf/nyxeris_cropped.jpg">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Nyxeris Cymri</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> ALIASES </span> </li>
+              <li> <i>Age</i>       <span> AGE </span> </li>
+              <li> <i>Gender</i>    <span> GENDER </span> </li>
+              <li> <i>Race</i>      <span> RACE </span> </li> 
+              <li> <i>Sexuality</i> <span> SEXUALITY </span> </li>
+              <li> <i>Setting</i>   <span> SOURCE </span> </li>
+              <li> <i>Alignment</i> <span> ALIGNMENT </span> </li>
+              <li> <i>Class</i>     <span> CLASS </span> </li>
+              <li> <i>Faceclaim</i> <span> FACECLAIM </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+<!--TAB TWENTY TWO-->
+<div class="tab current" id="tab-22">
+        <div class="bar colored">
+        </div>
+        <div class="stats">
+          <div class="picture">
+            <img src="https://68.media.tumblr.com/10b29c807491889b42dedaa008dcbcbe/tumblr_owc6s1Bs8Y1uo5urho3_r1_400.png">
+          </div>
+          <div class="details">
+            <h3 class="chivo-dark">Vyr Atenashi</h3>
+            <ul>
+              <li> <i>AKA</i>       <span> ALIASES </span> </li>
+              <li> <i>Age</i>       <span> AGE </span> </li>
+              <li> <i>Gender</i>    <span> GENDER </span> </li>
+              <li> <i>Race</i>      <span> RACE </span> </li> 
+              <li> <i>Sexuality</i> <span> SEXUALITY </span> </li>
+              <li> <i>Setting</i>   <span> SOURCE </span> </li>
+              <li> <i>Alignment</i> <span> ALIGNMENT </span> </li>
+              <li> <i>Class</i>     <span> CLASS </span> </li>
+              <li> <i>Faceclaim</i> <span> FACECLAIM </span> </li>
+            </ul>
+          </div>
+        </div>
+        <div class="info">
+          <div class="content">
+
+            <div class="row-1">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">History/Personality</h3>
+                </div>
+                <div class="txt">
+                 HISTORY TEXT. MAKE SURE TO PUT TWO LINE BREAKS BETWEEN PARAGRAPHS
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row-2">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">IMPORTANT RELATIONSHIPS, ALLEGIANCES</h3>
+                </div>
+                <div class="txt">
+                  RELATIONSHIP TEXT. AGAIN WITH DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+              
+            <div class="row-3">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">PHYSICAL DESCRIPTION</h3>
+                </div>
+                <div class="txt">
+                  PHYSICAL DESCRIPTION TEXT. STILL DOUBLE LINE BREAKS
+                </div>
+              </div>
+              </div>
+            <div class="row-4">
+              <div class="text">
+                <div class="headline">
+                  <h3 class="chivo-dark">LINKS</h3>
+                </div>
+                <div class="txt">
+                  RELEVANT LINKS
+                </div>
+              </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="sidebar side-title">
+            <div class="rotate">UNDER CONSTRUCTION</div>
+          </div>
+        </div>
+        
+      <!--PASTE NEW TABS HERE-->
+
+    </main>
+  </div>
+
+  <!--DO NOT TOUCH THE SCRIPTS UNLESS YOU KNOW WHAT YOU'RE DOING-->
+  <script>
+  $( document ).ready(function() {
+      
+   if( connectionPopup === true) {
+   $(".gallery li").each(function() {
+       $(this).css("cursor", "pointer");
+   });
+       
+   /*POPUP*/
+   /*opens popup on click*/
+   $(".gallery li").on('click', function() {
+     var currentIndex = $(this).index() + 4;
+
+     var currentLoc = ".tab.current .popup:nth-of-type(" + currentIndex + ')';
+     
+
+      $(this).addClass('active').siblings('.gallery li').removeClass('active');
+
+       $('.popup').fadeOut();
+       $(currentLoc).fadeIn().css('display', 'flex');
+       $(document.body).addClass('noscroll'); /*noscroll on background*/
+    });
+
+     $(".popup").on('click', function() {
+       $(this).fadeOut();
+       $(document.body).removeClass('noscroll');
+       $('.gallery img').removeClass('active');
+     });
+     /*prevent closing popup by clicking on it*/
+     $('.popup-inner').click(function (e) {
+       e.stopPropagation();
+     });
+   }
+
+
+    $('nav li').on('click', function(e) {
+      var currentAttrValue = $(this).attr('data-tab');
+
+      window.location.hash = $(this).attr('data-tab');
+
+      $('.tab' + currentAttrValue).addClass('current').siblings('.tab').removeClass('current');
+      $(this).addClass('current').siblings('nav li').removeClass('current');
+    });
+
+    /*HASH SCRIPT*/ 
+    var hash = $.trim(window.location.hash);
+
+    if (hash) {
+      $('nav li[data-tab$="' + hash + '"]').trigger('click');
+    }
+
+    $('#close').on('click', function() {
+      if ( ($(this)).hasClass('x') ) {
+        $('#close, nav, nav .current, nav ul').removeAttr('style');
+        $('#close').removeClass('x');
+      }
+
+      else {
+        $('nav .current').css({
+          'transform' : 'scale(1)',
+        });
+        $('nav').css({
+          'margin-left' : '-250px',
+        });
+        $('nav ul').css({
+          'overflow-y' : 'hidden',
+        });
+        $('#close').css({
+          'left' : '12px',
+        });
+        $('#close').addClass('x'); 
+      }
+    });
+    
+    /*color per tab*/
+    if( colorPerTab === true) {
+      var i = 1;
+      $(".tab").each(function() {
+        var thisNext = $(this).find("nav ul, .bar.colored, .bubbles ul li");
+        thisNext.css({
+          "background" : "var(--accentColorOne-" + i + ")",
+          "background" : "-webkit-linear-gradient(to bottom, var(--accentColorOne-" + i + "), var(--accentColorTwo-" + i + "))",
+          "background" : "linear-gradient(to bottom, var(--accentColorOne-" + i + "), var(--accentColorTwo-" + i + "))"
+        });
+       i++;
+      });
+    }
+
+  });/*document ready*/
+  </script>
+</body>
+</html>
